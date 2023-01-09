@@ -13,20 +13,20 @@ resource "aws_instance" "web_server" {
     #!/bin/bash
     apt-get update
     apt-get install -y apache2
-    echo 'Hello, World' > /var/www/html/index.html
+    echo 'Hello, World from apache2' > /var/www/html/index.html
   EOF
 
   tags      = {
     Name    = "Instance_Task3(HelloWorld)"
   }
 }
-# Expose port 8080
+# Expose port 80
 resource "aws_security_group" "allow_http" {
   name        = "allow_http"
   description = "Allow HTTP traffic Task3"
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -47,5 +47,5 @@ resource "aws_security_group" "allow_http" {
  
 }
 output "url" {
-    value = "http://${aws_instance.web_server.public_ip}:8080"
+    value = "http://${aws_instance.web_server.public_ip}:80"
 }
